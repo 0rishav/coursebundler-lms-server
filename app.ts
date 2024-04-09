@@ -24,7 +24,8 @@ app.use(cookieParser());
 //cors
 app.use(
   cors({
-    origin: ['https://coursebundler-rho.vercel.app'],
+    origin: ['http://localhost:3000'],
+    methods:["POST","PUT","DELETE","GET"],
     credentials:true,
   })
 );
