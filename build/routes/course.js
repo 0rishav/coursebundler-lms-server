@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const auth_1 = require("../middleware/auth");
+const course_1 = require("../controllers/course");
+const courseRouter = express_1.default.Router();
+courseRouter.post("/create-course", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), course_1.uploadCourse);
+courseRouter.put("/edit-course/:id", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), course_1.editCourse);
+courseRouter.get("/get-course/:id", course_1.getSingleCourse);
+courseRouter.get("/all-course", course_1.getAllCourses);
+courseRouter.get("/get-course-content/:id", auth_1.isAuthenticated, course_1.getCoursebyUser);
+courseRouter.put("/add-question", auth_1.isAuthenticated, course_1.addQuestion);
+courseRouter.put("/add-answer", auth_1.isAuthenticated, course_1.AddAnswer);
+courseRouter.put("/add-review/:id", auth_1.isAuthenticated, course_1.addReview);
+courseRouter.put("/add-reply", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), course_1.addReplyReview);
+courseRouter.get("/get-Admin-courses", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), course_1.getAdminAllCourse);
+courseRouter.post("/getVdoCipherOTP", course_1.generateVideoUrl);
+courseRouter.delete("/delete-course/:id", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), course_1.deleteCourse);
+exports.default = courseRouter;

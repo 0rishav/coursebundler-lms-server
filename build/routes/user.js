@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const user_1 = require("../controllers/user");
+const auth_1 = require("../middleware/auth");
+const userRouter = express_1.default.Router();
+userRouter.post("/register", user_1.registrationUser);
+userRouter.post("/activate-user", user_1.activateUser);
+userRouter.post("/login", user_1.loginUser);
+userRouter.get("/logout", auth_1.isAuthenticated, user_1.logoutUser);
+userRouter.get("/me", auth_1.isAuthenticated, user_1.getUserInfo);
+userRouter.post("/socialAuth", user_1.socialAuth);
+userRouter.put("/updateuser", auth_1.isAuthenticated, user_1.updateUserInfo);
+userRouter.put("/updatepassword", auth_1.isAuthenticated, user_1.updatePassword);
+userRouter.put("/updateuseravatar", auth_1.isAuthenticated, user_1.updateProfilePicture);
+userRouter.get("/get-users", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), user_1.getAllUsers);
+userRouter.put("/update-user", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), user_1.updateUserRole);
+userRouter.delete("/delete-user/:id", auth_1.isAuthenticated, (0, auth_1.authorizedRoles)("admin"), user_1.deleteUser);
+exports.default = userRouter;
